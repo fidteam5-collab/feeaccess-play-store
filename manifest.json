@@ -1,6 +1,6 @@
 {
-  "name": "feeaccess",
-  "short_name": "feeaccess",
+  "name": "FeeAccess",
+  "short_name": "FeeAccess",
   "description": "Gate and manage service access with smart fee controls.",
   "start_url": "/",
   "display": "standalone",
