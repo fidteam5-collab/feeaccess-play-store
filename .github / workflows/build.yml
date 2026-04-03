@@ -16,7 +16,7 @@ jobs:
           npm install -g @bubblewrap/cli
           bubblewrap init --manifest https://sly-pay-gate-pro.base44.app/manifest.json
           bubblewrap build
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: feeaccess-apk
           path: app/build/outputs/apk/release/
