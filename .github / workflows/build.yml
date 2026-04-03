@@ -6,17 +6,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install Bubblewrap
+        run: npm install -g @bubblewrap/cli@latest
+      - name: Initialize TWA project
+        run: |
+          mkdir twa-project && cd twa-project
+          bubblewrap init --manifest https://sly-pay-gate-pro.base44.app/manifest.json --directory .
+        env:
+          BUBBLEWRAP_SKIP_UPDATE_CHECK: 'true'
       - name: Build APK
         run: |
-          npm install -g @bubblewrap/cli
-          bubblewrap init --manifest https://sly-pay-gate-pro.base44.app/manifest.json
-          bubblewrap build
-      - uses: actions/upload-artifact@v4
+          cd twa-project
+          bubblewrap build --skipSigning
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: feeaccess-apk
-          path: app/build/outputs/apk/release/
+          path: twa-project/app-release-unsigned.apk
